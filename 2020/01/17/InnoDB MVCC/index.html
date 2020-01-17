@@ -21,7 +21,10 @@
     <meta name="keywords" content>
 
 
-    <meta name="description" content="InnoDB MVCC1.什么是MVCCMVCC（Multiversion Concurrency Control），中文全称叫中文全称叫多版本并发控制，是现代数据库（包括 MySQL、Orac...">
+    <meta name="description" content="参考文章：
+数据库村的旺财和小强
+再谈 InnoDB MVCC 机制
+InnoDB MVCC1.什么是MVCCMVCC（Multiversion Concurrency Control），中文全...">
 
 
 
@@ -33,7 +36,7 @@
     <!--Title-->
 
 
-<title>牟宗琳的博客</title>
+<title>InnoDB MVCC | 牟宗琳的博客</title>
 
 
     <link rel="alternate" href="/atom.xml" title="牟宗琳的博客" type="application/atom+xml">
@@ -142,9 +145,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="">
+        <h1 id="InnoDB MVCC">
             
-	            NO Title!
+	            InnoDB MVCC
             
         </h1>
         <div class="post-meta">
@@ -178,7 +181,10 @@
     </div>
     
     <div class="post-body post-content">
-        <h3 id="InnoDB-MVCC"><a href="#InnoDB-MVCC" class="headerlink" title="InnoDB MVCC"></a>InnoDB MVCC</h3><h4 id="1-什么是MVCC"><a href="#1-什么是MVCC" class="headerlink" title="1.什么是MVCC"></a>1.什么是MVCC</h4><p>MVCC（Multiversion Concurrency Control），中文全称叫中文全称叫<strong>多版本并发控制</strong>，是现代数据库（包括 MySQL、Oracle、PostgreSQL 等）引擎实现中常用的处理读写冲突的手段，<strong>目的在于提高数据库高并发场景下的吞吐性能</strong>。</p>
+        <p>参考文章：</p>
+<p><a href="https://mp.weixin.qq.com/s/bM_g6Z0K93DNFycvfJIbwQ" target="_blank" rel="noopener">数据库村的旺财和小强</a></p>
+<p><a href="https://mp.weixin.qq.com/s/BUvlwrupp0v89qblpwAoyA" target="_blank" rel="noopener">再谈 InnoDB MVCC 机制</a></p>
+<h3 id="InnoDB-MVCC"><a href="#InnoDB-MVCC" class="headerlink" title="InnoDB MVCC"></a>InnoDB MVCC</h3><h4 id="1-什么是MVCC"><a href="#1-什么是MVCC" class="headerlink" title="1.什么是MVCC"></a>1.什么是MVCC</h4><p>MVCC（Multiversion Concurrency Control），中文全称叫中文全称叫<strong>多版本并发控制</strong>，是现代数据库（包括 MySQL、Oracle、PostgreSQL 等）引擎实现中常用的处理读写冲突的手段，<strong>目的在于提高数据库高并发场景下的吞吐性能</strong>。</p>
 <p>如此一来不同的事务在并发过程中，SELECT 操作可以不加锁而是通过 MVCC 机制读取指定的版本历史记录，并通过一些手段保证保证读取的记录值符合事务所处的隔离级别，从而解决并发场景下的读写冲突。</p>
 <p>下面举一个多版本读的例子，例如两个事务 A 和 B 按照如下顺序进行更新和读取操作</p>
 <p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture1.jpeg" alt="picture"></p>
