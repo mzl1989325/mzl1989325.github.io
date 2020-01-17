@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="牟宗琳的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="备忘">
+
+
+    <meta name="description" content="本文转载自怎么去备份你的Hexo博客
+前言作为一个写代码的人来说，保存和备份是非常重要的，所以随手保存和存有备份已经成为我的习惯了。使用Hexo在github搭建的博客，仓库里只有生成的静态网页...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>如何备份博客 | 牟宗琳的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="牟宗琳的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(/./img/baner.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='John Doe'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 一代人终将老去但总有人正年轻 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">牟宗琳的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/工具/"><i class="fa "></i>工具</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/备忘/"><i class="fa "></i>备忘</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="如何备份博客">
+            
+	            如何备份博客
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/博客/">博客</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/备忘/">备忘</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2020/01/17</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>本文转载自<a href="https://www.jianshu.com/p/baab04284923" target="_blank" rel="noopener">怎么去备份你的Hexo博客</a></p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>作为一个写代码的人来说，保存和备份是非常重要的，所以随手保存和存有备份已经成为我的习惯了。使用Hexo在github搭建的博客，仓库里只有生成的静态网页文件，是没有Hexo的源文件的，如果现在这个电脑出现了什么问题，那就麻烦了，所以我就研究了一下怎么备份。备份的教程和搭建的教程比起来简直是少的可怜，好不容易找到一份教程，却是写的非常高深，个人觉得不应该是那么复杂的，所以果断放弃，就在我准备自己瞎搞得时候，终于让我看到了一份简单明了的教程，因为测试成功了，所以我需要把过程记录下来，以后忘了还可以有个参考</p>
+<hr>
+<p><em>华丽的分隔线，前面的碎碎念可以略过，下面才是正文</em>。</p>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>针对博客已经搭建并发布过文章的。</p>
+<p>1、在你的博客仓库创建一个分支Hexo（这个命名随意）；</p>
+<p>2、设置Hexo为默认分支（不知道怎么设的可以百度）；</p>
+<p>3、将博客仓库clone至本地，将之前的Hexo文件夹中的<br> <code>_config.yml</code>，<code>themes/</code>，<code>source</code>，<code>scffolds/</code>，<code>package.json</code>，<code>.gitignore</code>复制到你克隆下来的仓库文件夹，即Username.github.io；（Username是你自己的用户名）</p>
+<p>4、将themes/next/(我用的是NexT主题)中的<code>.git/</code>删除，否则无法将主题文件夹push；</p>
+<p>5、在Username.github.io；文件夹执行<code>npm install</code>，<code>npm install hexo-deployer-git</code>(这里可以看看分支是不是显示为Hexo)</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/4904768-2d12049be9999009.png?imageMogr2/auto-orient/strip|imageView2/2/w/476/format/webp" alt="img"></p>
+<p>示例01.png</p>
+<p>6、执行<code>git add</code>，<code>git commit -m &quot;提交文件&quot;</code>，<code>git push origin Hexo</code>来提交Hexo网站源文件；</p>
+<blockquote>
+<p><strong>注意</strong>：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/4904768-fd5424ef9b3d3235.png?imageMogr2/auto-orient/strip|imageView2/2/w/564/format/webp" alt="img"></p>
+<p>示例02.png</p>
+</blockquote>
+<p>7、执行hexo g -d 生成静态网页部署到github上。<br> 这样，<a href="https://links.jianshu.com/go?to=https%3A%2F%2Folivivian.github.io%2F" target="_blank" rel="noopener">Username.github.io</a>仓库就有master分支保存静态网页，hexo分支保存源文件。</p>
+<h3 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h3><p>在本地对博客修改（包括修改主题样式、发布新文章等）后</p>
+<p>1、执行<code>git add</code>，<code>git commit -m &quot;提交文件&quot;</code>，<code>git push origin Hexo</code>来提交Hexo网站源文件；</p>
+<p>2、执行hexo g -d 生成静态网页部署到github上；<br> （每次发布重复这两步，它们之间没有严格的顺序）</p>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><p>换电脑想改博客：<br> 1、安装git；<br> 2、安装Nodejs和npm；<br> 3、使用克隆命令将仓库拷贝至本地；<br> 4、在文件夹内执行命令<code>npm install hexo-cli -g</code>、<code>npm install</code>、<code>npm install hexo-deployer-git</code>；</p>
+<h3 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h3><p>Hexo的源文件说明：<br> 1、<code>_config.yml</code>站点的配置文件，需要拷贝；<br> 2、<code>themes/</code>主题文件夹，需要拷贝；<br> 3、<code>source</code>博客文章的.md文件，需要拷贝；<br> 4、<code>scaffolds/</code>文章的模板，需要拷贝；<br> 5、<code>package.json</code>安装包的名称，需要拷贝；<br> 6、<code>.gitignore</code>限定在push时哪些文件可以忽略，需要拷贝；<br> 7、<code>.git/</code>主题和站点都有，标志这是一个git项目，不需要拷贝；<br> 8、<code>node_modules/</code>是安装包的目录，在执行npm install的时候会重新生成，不需要拷贝；<br> 9、<code>public</code>是hexo g生成的静态网页，不需要拷贝；<br> 10、<code>.deploy_git</code>同上，hexo g也会生成，不需要拷贝；<br> 11、<code>db.json</code>文件，不需要拷贝。</p>
+<p>不需要拷贝的文件正是.gitignore中所忽略的。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>在github上直接创建分支的方法，直接输入新的分支名，回车即可。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2020/01/17/InnoDB MVCC/" class="pre-post btn btn-default" title=''>
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs"></span>
+        </a>
+    
+    
+        <a href="/2019/11/02/kafka-1-基本概念/" class="next-post btn btn-default" title='深入理解kafka读书笔记'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">深入理解kafka读书笔记</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: true,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改"><span class="toc-text">修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#恢复"><span class="toc-text">恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#附录"><span class="toc-text">附录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

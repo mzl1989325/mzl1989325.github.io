@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="牟宗琳的博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content>
+
+
+    <meta name="description" content="InnoDB MVCC1.什么是MVCCMVCC（Multiversion Concurrency Control），中文全称叫中文全称叫多版本并发控制，是现代数据库（包括 MySQL、Orac...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>牟宗琳的博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="牟宗琳的博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(/./img/baner.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title='John Doe'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 一代人终将老去但总有人正年轻 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">牟宗琳的博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/前端/"><i class="fa "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/后端/"><i class="fa "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/工具/"><i class="fa "></i>工具</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/备忘/"><i class="fa "></i>备忘</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="">
+            
+	            NO Title!
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2020/01/17</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="InnoDB-MVCC"><a href="#InnoDB-MVCC" class="headerlink" title="InnoDB MVCC"></a>InnoDB MVCC</h3><h4 id="1-什么是MVCC"><a href="#1-什么是MVCC" class="headerlink" title="1.什么是MVCC"></a>1.什么是MVCC</h4><p>MVCC（Multiversion Concurrency Control），中文全称叫中文全称叫<strong>多版本并发控制</strong>，是现代数据库（包括 MySQL、Oracle、PostgreSQL 等）引擎实现中常用的处理读写冲突的手段，<strong>目的在于提高数据库高并发场景下的吞吐性能</strong>。</p>
+<p>如此一来不同的事务在并发过程中，SELECT 操作可以不加锁而是通过 MVCC 机制读取指定的版本历史记录，并通过一些手段保证保证读取的记录值符合事务所处的隔离级别，从而解决并发场景下的读写冲突。</p>
+<p>下面举一个多版本读的例子，例如两个事务 A 和 B 按照如下顺序进行更新和读取操作</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture1.jpeg" alt="picture"></p>
+<p>在事务 A 提交前后，事务 B 读取到的 x 的值是什么呢？答案是：事务 B 在不同的隔离级别下，读取到的值不一样。</p>
+<ol>
+<li>如果事务 B 的隔离级别是读未提交（RU），那么两次读取均读取到 x 的最新值，即 20。</li>
+<li>如果事务 B 的隔离级别是读已提交（RC），那么第一次读取到旧值 10，第二次因为事务 A 已经提交，则读取到新值 20。</li>
+<li>如果事务 B 的隔离级别是可重复读或者串行（RR，S），则两次均读到旧值 10，不论事务 A 是否已经提交。</li>
+</ol>
+<p>可见在不同的隔离级别下，数据库通过 MVCC 和隔离级别，让事务之间并行操作遵循了某种规则，来保证单个事务内前后数据的一致性。</p>
+<h4 id="2-为什么需要MVCC"><a href="#2-为什么需要MVCC" class="headerlink" title="2.为什么需要MVCC"></a>2.为什么需要MVCC</h4><p>InnoDB 相比 MyISAM 有两大特点，一是支持事务而是支持行级锁，事务的引入带来了一些新的挑战。相对于串行处理来说，并发事务处理能大大增加数据库资源的利用率，提高数据库系统的事务吞吐量，从而可以支持可以支持更多的用户。但并发事务处理也会带来一些问题，主要包括以下几种情况：</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture9.jpg" alt>      </p>
+<p><strong>实现隔离机制的方法主要有两种</strong>：</p>
+<ol>
+<li>加读写锁</li>
+<li>一致性快照读，即 MVCC</li>
+</ol>
+<h4 id="3-InnoDB-MVCC实现原理"><a href="#3-InnoDB-MVCC实现原理" class="headerlink" title="3.InnoDB MVCC实现原理"></a>3.InnoDB MVCC实现原理</h4><p>InnoDB中MVCC的实现方式为：每一行记录都有两个隐藏列：DATA_TRX_ID,DATA_ROLL_PTR(如果没有主键，则还会多一个隐藏的主键列)。</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture2.jpeg" alt="picture"></p>
+<p><strong>DATA_TRX_ID</strong></p>
+<p>记录最近更新这条行记录的事务ID，大小为6个字节</p>
+<p><strong>DATA_ROLL_PTR</strong></p>
+<p>表示指向该回滚段(rollback segment)的 指针，大小为7个字节，InnoDB便是通过这个指针找到之前版本的数据，改行记录上所有旧版本，在undo中投通过链表形式组织。</p>
+<p><strong>DB_ROW_ID</strong></p>
+<p>行标识（隐藏单调自增id）,大小为6字节，如果没有主键,InnoDB会自动生成一个隐藏主键，因此会出现这个列</p>
+<p>。另外，每条记录的头信息(record header)里都有一个专门的bit（deleted_flag）来表示当前记录是否已经删除。</p>
+<h5 id="3-1-如何组织版本链"><a href="#3-1-如何组织版本链" class="headerlink" title="3.1 如何组织版本链"></a>3.1 如何组织版本链</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">关于Redo log 和 Undo log的相关概念自行查找资料</span><br></pre></td></tr></table></figure>
+<p>上文提到，在多个事务并行操作某行数据的情况下，不同事务对该行数据的 UPDATE 会产生多个版本，然后通过回滚指针组织成一条 Undo Log 链，这节我们通过一个简单的例子来看一下 Undo Log 链是如何组织的，DATA_TRX_ID 和 DATA_ROLL_PTR 两个参数在其中又起到什么样的作用。</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture1.jpeg" alt="picture1"></p>
+<p>还是以上文 MVCC 的例子，事务 A 对值 x 进行更新之后，该行即产生一个新版本和旧版本。假设之前插入该行的事务 ID 为 100，事务 A 的 ID 为 200，该行的隐藏主键为 1。</p>
+<p>事务A 的操作过程为:</p>
+<ol>
+<li>对 DB_ROW_ID = 1 的这行记录加排他锁。</li>
+<li>把该行原本的值拷贝到 undo log 中，DB_TRX_ID 和 DB_ROLL_PTR 都不动。</li>
+<li><strong>修改该行的值这时产生一个新版本，更新 DATA_TRX_ID 为修改记录的事务 ID，将 DATA_ROLL_PTR 指向刚刚拷贝到 undo log 链中的旧版本记录，这样就能通过 DB_ROLL_PTR 找到这条记录的历史版本。如果对同一行记录执行连续的 UPDATE，Undo Log 会组成一个链表，遍历这个链表可以看到这条记录的变迁</strong>。</li>
+<li>记录redo log,包括undo log中的修改。</li>
+</ol>
+<p>那么 INSERT 和 DELETE 会怎么做呢？其实相比 UPDATE 这二者很简单，INSERT 会产生一条新纪录，它的 DATA_TRX_ID 为当前插入记录的事务 ID；DELETE 某条记录时可看成是一种特殊的 UPDATE，其实是软删，真正执行删除操作会在 commit 时，DATA_TRX_ID 则记录下删除该记录的事务 ID。</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture7.jpg" alt="picture7"></p>
+<h5 id="3-2-如何实现一致性读-ReadView"><a href="#3-2-如何实现一致性读-ReadView" class="headerlink" title="3.2 如何实现一致性读 ReadView"></a>3.2 如何实现一致性读 ReadView</h5><p>在 RU 隔离级别下，直接读取版本的最新记录就 OK，对于 SERIALIZABLE 隔离级别，则是通过加锁互斥来访问数据，因此不需要 MVCC 的帮助。因此 MVCC 运行在 RC 和 RR这两个隔离级别下，当 InnoDB 隔离级别设置为二者其一时，在 SELECT 数据时就会用到版本链</p>
+<blockquote>
+<p><em>核心问题是版本链中哪些版本对当前事务可见？</em></p>
+</blockquote>
+<p>InnoDB 为了解决这个问题，设计了 ReadView（可读视图）的概念。</p>
+<h5 id="3-3-RR下ReadView的生成"><a href="#3-3-RR下ReadView的生成" class="headerlink" title="3.3 RR下ReadView的生成"></a>3.3 RR下ReadView的生成</h5><p>在RR隔离级别下，每个事务touch first read时（<strong>本质上就是执行第一个 SELECT语句时，后续所有的 SELECT 都是复用这个 ReadView</strong>，其它 update, delete, insert 语句和一致性读 snapshot 的建立没有关系），会将当前系统中的所有的活跃事务拷贝到一个列表生成ReadView。</p>
+<h4 id="4-举个例子"><a href="#4-举个例子" class="headerlink" title="4.举个例子"></a>4.举个例子</h4><p>数据表user</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture3.jpg" alt="picture3"></p>
+<p>加入隐藏列</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture4.jpg" alt="picture4"></p>
+<p>假如有两个事务开启</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture5.jpg" alt="picture4"></p>
+<p>在1处时，数据是这样的：</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture4.jpg" alt="picture4"></p>
+<p>于此同时，需要建立一个<strong>Read View的数据结构</strong>，它有三个部分：</p>
+<ol>
+<li>当前活跃的事务列表[101,102]</li>
+<li>Tmin,就是活跃事务的最小值， 在这里 Tmin = 101</li>
+<li>Tmax, 是系统中最大事务ID（不管事务是否提交）加上1。 在这里例子中，Tmax = 103</li>
+</ol>
+<p>在2的部分事务102做了修改，此时数据是这样的：</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture6.png" alt="picture6"></p>
+<p><strong>关键部分，下面的算法用来判断这些数据版本哪些是是对当前事务可见的</strong></p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture7.jpeg" alt="picture6"></p>
+<p><strong>Read View结构</strong></p>
+<ol>
+<li>当前活跃的事务列表[101,102]</li>
+<li>Tmin,就是活跃事务的最小值， 在这里 Tmin = 101</li>
+<li>Tmax, 是系统中最大事务ID（不管事务是否提交）加上1。 在这里例子中，Tmax = 103</li>
+</ol>
+<p>对于上述例子，第一次读取时：</p>
+<ol>
+<li>取出要读取的数据，取出事务ID赋值给变量tid,tid=100。</li>
+<li>Tmin=101,tid&lt;Tmin</li>
+<li>可见</li>
+</ol>
+<p>第二次读取时：</p>
+<ol>
+<li>tid=102</li>
+<li>Tmin=101,当前事务事务id=101,进入下个判断流程</li>
+<li>tid=102,Tmax=103,走入tid在ReadView中？</li>
+<li>tid=102在ReadView中，沿着回滚指针找到上一行，将事务id赋值给tid,tid=100</li>
+<li>读取的数据和第一次相同</li>
+</ol>
+<p>保证了可重复读</p>
+<h4 id="5-一个争议点"><a href="#5-一个争议点" class="headerlink" title="5.一个争议点"></a>5.一个争议点</h4><p>并非所有的情况都能套用MVCC读的判断流程，例如RR级别下</p>
+<p><img src="https://raw.githubusercontent.com/mzl1989325/ImageBed/master/share/picture10.jpg" alt></p>
+<p>1.假设transaction A trx_id =200 ，transaction B trx_id =300,且事务B先于事务A提交，按照MVCC的判断流程，事务A生成的ReadView为[200],最新版本行记录DATA_TRX_ID=300,300比200大，照理不能访问，但是事务A实际上读到了事务B已经提交的修改。</p>
+<h4 id="6写在最后"><a href="#6写在最后" class="headerlink" title="6写在最后"></a>6写在最后</h4><p>RC、RR 两种隔离级别的事务在执行普通的读操作时，通过访问版本链的方法，使得事务间的读写操作得以并发执行，从而提升系统性能。RC、RR 这两个隔离级别的一个很大不同就是生成 ReadView 的时间点不同，RC 在每一次 SELECT 语句前都会生成一个 ReadView，事务期间会更新，因此在其他事务提交前后所得到的 m_ids 列表可能发生变化，使得先前不可见的版本后续又突然可见了。而 RR 只在事务的第一个 SELECT 语句时生成一个 ReadView，事务操作期间不更新。</p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2020/01/17/如何备份博客/" class="next-post btn btn-default" title='如何备份博客'>
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">如何备份博客</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: true,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB-MVCC"><span class="toc-text">InnoDB MVCC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是MVCC"><span class="toc-text">1.什么是MVCC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-为什么需要MVCC"><span class="toc-text">2.为什么需要MVCC</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-InnoDB-MVCC实现原理"><span class="toc-text">3.InnoDB MVCC实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-1-如何组织版本链"><span class="toc-text">3.1 如何组织版本链</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-2-如何实现一致性读-ReadView"><span class="toc-text">3.2 如何实现一致性读 ReadView</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-3-RR下ReadView的生成"><span class="toc-text">3.3 RR下ReadView的生成</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-举个例子"><span class="toc-text">4.举个例子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-一个争议点"><span class="toc-text">5.一个争议点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6写在最后"><span class="toc-text">6写在最后</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

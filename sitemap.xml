@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://yoursite.com/2020/01/17/InnoDB%20MVCC/</loc>
+    
+    <lastmod>2020-01-17T03:01:54.691Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/01/17/%E5%A6%82%E4%BD%95%E5%A4%87%E4%BB%BD%E5%8D%9A%E5%AE%A2/</loc>
+    
+    <lastmod>2020-01-17T02:58:44.019Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/11/02/java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-volatile/</loc>
+    
+    <lastmod>2019-08-31T09:43:49.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/11/02/kafka-1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</loc>
+    
+    <lastmod>2019-07-06T09:47:37.622Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/11/02/hello-world/</loc>
+    
+    <lastmod>2019-07-06T09:06:48.540Z</lastmod>
+    
+  </url>
+  
+</urlset>
