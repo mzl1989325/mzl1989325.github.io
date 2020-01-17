@@ -1,3 +1,13 @@
+---
+title: InnoDB MVCC
+abbrlink: 1本
+---
+参考文章：
+
+[数据库村的旺财和小强](<https://mp.weixin.qq.com/s/bM_g6Z0K93DNFycvfJIbwQ>)
+
+[再谈 InnoDB MVCC 机制](<https://mp.weixin.qq.com/s/BUvlwrupp0v89qblpwAoyA>)
+
 ### InnoDB MVCC
 
 #### 1.什么是MVCC
